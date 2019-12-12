@@ -1,43 +1,43 @@
 package com.aphiwe.resources;
 import com.aphiwe.api.Student;
-import com.codahale.metrics.annotation.Timed;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.Optional;
+
 @Path("/students")
 @Produces(MediaType.APPLICATION_JSON)
 public class StudentRecordResource {
-    List<Student> students =new ArrayList<>();
-    public StudentRecordResource (){
-        students.add(new Student(1,"Sam",88));
-        students.add(new Student(2,"Lia",50));
-        students.add(new Student(8,"Anele",90));
-        students.add(new Student(5,"Aphiwe",30));
-    }
-
     @GET
-    public List<Student> getStudent(){
-        return students;
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public Student getStudent(@PathParam("id") long id){
+        Student student;
+        Configuration con = new Configuration().configure().addAnnotatedClass(Student.class);
+        SessionFactory sf = con.buildSessionFactory();
+        Session session = sf.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        student= (Student) session.get(Student.class,id);
+        tx.commit();
+        return student;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addStudent(Student stud){
-        if(!students.contains(stud)){
-            students.add(stud);
-            return Response.ok().build();
-        }
+    public Response addToDB(Student student){
+        Configuration con = new Configuration().configure().addAnnotatedClass(Student.class);
+        SessionFactory sf = con.buildSessionFactory();
+        Session session = sf.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.save(student);
+        tx.commit();
         return Response.ok().build();
-
     }
-
-
-
 
 
 }
