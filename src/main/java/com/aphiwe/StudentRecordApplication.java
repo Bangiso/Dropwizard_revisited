@@ -18,7 +18,7 @@ public class StudentRecordApplication extends Application<StudentRecordConfigura
 
     @Override
     public void initialize(final Bootstrap<StudentRecordConfiguration> bootstrap) {
-        // TODO: application initialization
+
     }
 
     @Override

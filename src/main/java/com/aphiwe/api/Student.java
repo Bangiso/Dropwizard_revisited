@@ -2,9 +2,20 @@ package com.aphiwe.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+//@Table(name="Student_Record")
 public class Student {
+    @Id
+    @Column(name="id")
     private long id;
+    @Column(name="name")
     private String name;
+    @Column(name="GPA")
     private int GPA;
 
 
@@ -25,6 +36,15 @@ public class Student {
     @JsonProperty
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", GPA=" + GPA +
+                '}';
     }
 
     @JsonProperty
