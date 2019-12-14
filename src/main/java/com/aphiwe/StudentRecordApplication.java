@@ -13,7 +13,7 @@ public class StudentRecordApplication extends Application<StudentRecordConfigura
 
     @Override
     public String getName() {
-        return "StudentRecord";
+        return "Student  Record";
     }
 
     @Override

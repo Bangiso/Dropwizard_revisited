@@ -48,7 +48,7 @@ public class StudentRecordResource {
         Transaction tx = session.beginTransaction();
         session.save(student);
         tx.commit();
-        return Response.ok().build();
+        return Response.status(200).build();
     }
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,8 +59,21 @@ public class StudentRecordResource {
         Transaction tx = session.beginTransaction();
         session.update(student);
         tx.commit();
-        return Response.ok().build();
+        return Response.status(200).build();
     }
+    @DELETE
+    @Path("/rm")
+    public Response removeFromDB(@QueryParam("id") long id){
+        Configuration con = new Configuration().configure().addAnnotatedClass(Student.class);
+        SessionFactory sf = con.buildSessionFactory();
+        Session session = sf.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        Student student= (Student) session.get(Student.class,id);
+        session.delete(student);
+        tx.commit();
+        return Response.status(200).build();
+    }
+
 
 
 }
